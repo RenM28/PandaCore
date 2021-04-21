@@ -1,5 +1,5 @@
 
-  
+
 var firebaseConfig = {
     apiKey: "AIzaSyDQ51f00QrLyoWwuTXZrCJe_HUqT5QnSHU",
     authDomain: "pandacore.firebaseapp.com",
@@ -20,16 +20,24 @@ function signup(){
     var password = document.getElementById("pass").value;
     
     try {
-        const promise = auth.createUserWithEmailAndPassword(email,password);
-        promise.catch(e => alert(e.message));
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          var user = userCredential.user;
+          location.href = "/monthly";
+          
 
-        location.href = "/loggedin";
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          alert("error signing in");
+          // ..
+        });
+        
     } catch (error) {
-         console.error(error);
-         alert("error signing up");
-  }
-    
-    //alert("signed up");
+        console.error(error);
+        alert("error signing up");
+  } 
 }
 
 function signin(){
@@ -37,17 +45,22 @@ function signin(){
   var password = document.getElementById("pass").value;
 
 try {
-  const promise = auth.signInWithEmailAndPassword(email,password);
-  promise.catch(e => alert(e.message));
-  location.href = "/loggedin";
-} catch (error) {
-  console.error(error);
-  alert("error signing in");
-}
-  
-
-  
-  //alert("signed in");
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Signed in
+      user = userCredential.user;
+      location.href = "/monthly";
+      // ...
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      alert("error signing in");
+    });
+  } catch (error) {
+    console.error(error);
+    alert("error signing in");
+  }
 }
 
 function signout(){
@@ -57,11 +70,14 @@ function signout(){
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    
     var email = user.email;
+    localStorage.setItem("whatUser", email);  
+
+    
     alert("logged in " + email)
   } else {
     
   }
 
 });
+

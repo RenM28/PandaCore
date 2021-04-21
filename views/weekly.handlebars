@@ -1,14 +1,14 @@
+
 <head>	
 	<!-- Style Sheet -->
 	<link rel="stylesheet" type="text/css" href="/css/styles.css">
 	
 	<script src="/js/genCalendar.js"></script>
+	<script src="/js/addEvent.js"></script>
 	
-	<!-- The core Firebase JS SDK is always required and must be listed first -->
-	<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js%22%3E"></script>
-
-	<!-- TODO: Add SDKs for Firebase products that you want to use
-    https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js%22%3E"></script>
 
 	<!-- Google's jquery CDN -->
@@ -16,6 +16,36 @@
 	
 	<script src="/js/configureFirebase.js"></script>
 </head>
+
+
+		{{!-- Adding event --}}
+			<body onload="firebaseInit()"> 
+
+			<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script> 
+
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<title>jQuery UI Datepicker - Default functionality</title>
+			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+			<link rel="stylesheet" href="/resources/demos/style.css">
+			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			<script>
+			$( function() {
+				$( "#datepicker" ).datepicker();
+			} );
+			</script>
+
+
+			<button onClick="addEvent()">add event</button>
+			<p>Date: <input type="text" id="datepicker"></p>
+			<input type="text" id="title">
+			<input type="text" id="event">
+
+			
+		{{!--  --}}
 
 <body>
 	<div class="calendar" id="calendar">
