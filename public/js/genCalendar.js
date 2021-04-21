@@ -188,7 +188,7 @@ function genDaysInWeek() {
 	
 	var tmp = parseInt(selectedDays[lenArray]) - selectedDayOfWeek;
 	for (var i = 0; i <= 6; i++) {
-		if (tmp > 0) { // if day is less than one, don't generate it
+		if (tmp > 0 && tmp < num) { // if day is less than one or past last date, don't generate it
 			// formatting stuff
 			var d = document.createElement("div"); // create div object for date box
 			d.id = "calendarday_" + i; // identifies date box as calendarday_i
