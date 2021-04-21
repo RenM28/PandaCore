@@ -19,12 +19,61 @@ function genMonths() {
 			return function () {
 				month = selectedMonth;
 				document.getElementById("curMonth").innerHTML = months[month];
-				genDays();
+				var url = window.location.href; 
+				if (url.includes("monthly")) {
+					genDays();
+				} else if (url.includes("weekly")) {
+					genDaysInWeek();
+				}
+				localStorage.setItem("month", month); // saves month
 				return month;
 			}
 		})();
 
 		document.getElementById("months").appendChild(doc);
+	}
+}
+
+function genViews() {
+	for (var i = 0; i < views.length; i++) {
+		var doc = document.createElement("div");
+		doc.innerHTML = views[i];
+		doc.classList.add("dropdown-item");
+		
+		doc.onclick = (function () {
+			var selectedView = i;
+			return function () {
+				view = selectedView;
+				document.getElementById("curView").innerHTML = views[view];	
+				
+				// open url of page 
+				// gets full URL of curent location
+				var fullUrl = window.location.href;
+				// start of URL
+				var start = "http://";
+				// splits URL at dashes
+				var urlSplit = fullUrl.split("/");
+				// gets main part of URL
+				var partialURL = urlSplit[urlSplit.length-2];
+				// adds the http:// and the main part of URL
+				var url = start + partialURL;
+				// add on extension
+				if (views[view] == "Monthly") {
+					url += "/monthly";
+				} else if (views[view] == "Weekly") {
+					url += "/weekly";
+				} else {
+					url += "/daily";
+				}
+				
+				// open window
+				window.open(url,"_self")
+				localStorage.setItem("view", view);
+				return view;
+			}
+		})();
+		
+		document.getElementById("views").appendChild(doc);
 	}
 }
 
@@ -41,7 +90,13 @@ function genYears() {
 			return function () {
 				year = selectedYear;
 				document.getElementById("curYear").innerHTML = year;
-				genDays();
+				var url = window.location.href; 
+				if (url.includes("monthly")) {
+					genDays();
+				} else if (url.includes("weekly")) {
+					genDaysInWeek();
+				}
+				localStorage.setItem("year", year); // saves year
 				return year;
 			}
 		})();
@@ -76,7 +131,7 @@ function genDays() {
 		
 		/* ****************** Click Event ********************** */
         d.addEventListener('click', function(){
-            this.classList.toggle('selected');
+            this.classList.toggle('selected'); // changes color of day
 			
 			// if not in data set, select it
             if (!selectedDays.includes(this.dataset.day))
@@ -86,9 +141,9 @@ function genDays() {
                 selectedDays.splice(selectedDays.indexOf(this.dataset.day), 1);
 			
 			localStorage.setItem("selectedDays", selectedDays);
+			
         });
         /* **************************************************** */
-		
 		document.getElementById("calendarDays").appendChild(d);
 	}
 
@@ -118,6 +173,8 @@ function genDaysInWeek() {
 	var selected = new Date(curYear, months.indexOf(curMonth), parseInt(selectedDays[lenArray]));
 	
 	var selectedDayOfWeek = selected.getDay(); // gets what day of week the selected day is 
+	
+	// calc blanks as day of week last month ends at + num of selected day - day of week selected day is on
 	var numBlanks = dayofweek + parseInt(selectedDays[lenArray]) - selectedDayOfWeek;
 	
 	// i <= day before calendar starts
@@ -131,13 +188,20 @@ function genDaysInWeek() {
 	
 	var tmp = parseInt(selectedDays[lenArray]) - selectedDayOfWeek;
 	for (var i = 0; i <= 6; i++) {
-		// formatting stuff
-		var d = document.createElement("div"); // create div object for date box
-		d.id = "calendarday_" + i; // identifies date box as calendarday_i
-		d.className = "day"; // defines class to be day
-		d.innerHTML = tmp; // actual date that gets put into box
+		if (tmp > 0) { // if day is less than one, don't generate it
+			// formatting stuff
+			var d = document.createElement("div"); // create div object for date box
+			d.id = "calendarday_" + i; // identifies date box as calendarday_i
+			d.className = "day"; // defines class to be day
+			d.innerHTML = tmp; // actual date that gets put into box
 
-		document.getElementById("daysInWeek").appendChild(d);
+			document.getElementById("daysInWeek").appendChild(d);
+		} else { // add blanks for whatever days don't exist
+			var d = document.createElement("div");
+			d.classList.add("day");
+			d.classList.add("blank");
+			document.getElementById("daysInWeek").appendChild(d);
+		}
 		tmp += 1;
 	}
 	
@@ -151,36 +215,36 @@ function daysInMonth(month, year) {
 	var d = new Date(year, month+1, 0);
 	return d.getDate();
 }
-
-function genViews() {
-	for (var i = 0; i < views.length; i++) {
-		var doc = document.createElement("div");
-		doc.innerHTML = views[i];
-		doc.classList.add("dropdown-item");
-		
-		doc.onclick = (function () {
-			var selectedView = i;
-			return function () {
-				view = selectedView;
-				document.getElementById("curView").innerHTML = views[view];
-				// gen new view on click -- make functions for this
-				// if select monthly genMonths
-				// if select weekly, genWeeks
-				// if select daily, genDays
-				
-				return view;
-			}
-		})();
-		
-		document.getElementById("views").appendChild(doc);
-	}
-}
 		
 window.addEventListener('load', function () {
-	var date = new Date();
-	month = date.getMonth();
-	year = date.getFullYear();
-	view = views[0];
+	var url = window.location.href;  // get ref to current URL
+	
+	var date = new Date(); // get ref to current date
+	
+	month = localStorage.getItem("month");
+	if (month < 0 || month > 11) {
+		month = date.getMonth();
+	}
+	
+	year = localStorage.getItem("year");
+	if (year < 2021 || year > 2099) {
+		year = date.getFullYear();
+	}
+	
+	// janky solution for view display when homepage is clicked
+	// TODO: maybe fix by somehow doing this with html 
+	if (url.includes("monthly")) {
+		viewNum = 0;
+	} else {
+		viewNum = localStorage.getItem("view");
+	}
+	
+	if (viewNum < 0 || viewNum > 2) {
+		view = views[0];
+	}
+	
+	view = views[viewNum];
+	
 	document.getElementById("curMonth").innerHTML = months[month];
 	document.getElementById("curYear").innerHTML = year;
 	document.getElementById("curView").innerHTML = view;
@@ -188,8 +252,6 @@ window.addEventListener('load', function () {
 	genYears();
 	genViews();
 	
-	var url = window.location.href; 
-	console.log(url)
 	if (url.includes("monthly")) {
 		genDays();
 	} else if (url.includes("weekly")) {
