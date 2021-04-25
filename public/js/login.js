@@ -55,6 +55,20 @@ function signout(){
   alert("signed out");
 }
 
+function forgotPassword(){
+  var email = document.getElementById("email").value;
+
+  if (email == "email" || email == ""){
+    alert("Please enter an email adress.")
+  } else{
+    auth.sendPasswordResetEmail(email).then(function() {
+      alert("An email to reset your password has been sent.")
+    }).catch(function(error) {
+      // Is this where it goes if an email isn't in the records? -Erik
+    })
+  }
+}
+
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     
