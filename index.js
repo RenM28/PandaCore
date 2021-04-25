@@ -1,3 +1,4 @@
+
 /*
     Node.js/Express for PandaCore.
     By: Erik, Ren, Matt, Carter
@@ -15,7 +16,8 @@ app.engine('handlebars', expressHandlebars({
 }))
 app.set('view engine', 'handlebars');
 
-app.get('/monthly', (req,res) => res.render('monthly'));
+app.get('/', (req, res) => res.render('login'));
+
 
 app.get('/monthly', (req,res) => res.render('monthly'));
 
@@ -25,7 +27,6 @@ app.get('/daily', (req,res) => res.render('daily'));
 
 app.get('/proposal', (req, res) => res.render('final-project-PandaCore'));
 
-app.get('/login', (req, res) => res.render('login'));
 
 app.get('/loggedin', (req, res) => res.render('loggedin'));
 
