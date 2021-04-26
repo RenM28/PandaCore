@@ -115,6 +115,30 @@ body, *{
 	font-weight:bold;
 }
 
+.header {
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size: 35px;
+	font-weight: bold;
+}
+
+.eventHolder {
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+}
+
+.eventHeader {
+	font-size: 25px;
+	padding-bottom: 15px;
+}
+
+.eventBody {
+	font-size: 20px;
+	padding-bottom: 50px;
+}
+
 .clear{
 	clear:both;
 }

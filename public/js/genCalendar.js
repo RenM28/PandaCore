@@ -256,5 +256,5 @@ window.addEventListener('load', function () {
 		genDays();
 	} else if (url.includes("weekly")) {
 		genDaysInWeek();
-	}
+	} 
 });

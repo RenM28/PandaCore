@@ -18,7 +18,6 @@ app.set('view engine', 'handlebars');
 
 app.get('/', (req, res) => res.render('login'));
 
-
 app.get('/monthly', (req,res) => res.render('monthly'));
 
 app.get('/weekly', (req,res) => res.render('weekly'));
