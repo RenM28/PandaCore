@@ -14,14 +14,12 @@ function firebaseInit() {
 	};
 	firebase.initializeApp(firebaseConfig);
 	var user = firebase.auth().currentUser;
-	
 }
 
 function genToday() {
     console.log("getting event");
     firebaseInit();
-	var temp = localStorage.getItem("temp");
-	console.log("test" + temp);
+
 	var email = localStorage.getItem("whatUser");
 
     var day = localStorage.getItem("selectedDays").split(",")[0];
