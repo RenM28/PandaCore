@@ -139,7 +139,9 @@ function genDays() {
 
             else
                 selectedDays.splice(selectedDays.indexOf(this.dataset.day), 1);
-			
+			localStorage.setItem("temp", selectedDays);
+			console.log(selectedDays);
+		
 			localStorage.setItem("selectedDays", selectedDays);
 			
         });
