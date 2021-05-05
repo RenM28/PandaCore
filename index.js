@@ -26,7 +26,6 @@ app.get('/daily', (req,res) => res.render('daily'));
 
 app.get('/proposal', (req, res) => res.render('final-project-PandaCore'));
 
-
 app.get('/loggedin', (req, res) => res.render('loggedin'));
 
 app.use((req, res) => {
