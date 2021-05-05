@@ -140,7 +140,7 @@ function genDays() {
             else
                 selectedDays.splice(selectedDays.indexOf(this.dataset.day), 1);
 			console.log("GenCal", selectedDays);
-			localStorage.setItem("temp", selectedDays);
+			localStorage.setItem("temp", "temp");
 			
 			localStorage.setItem("selectedDays", selectedDays);
 			
