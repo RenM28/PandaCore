@@ -19,7 +19,8 @@ function firebaseInit() {
 function genToday() {
     console.log("getting event");
     firebaseInit();
-	var temp = localStorage.getItem("temp");
+	var temp=JSON.parse(localStorage.getItem('temp'));
+	//var temp = localStorage.getItem("temp");
 	console.log("getEvent",temp);
 	var email = localStorage.getItem("whatUser");
 
